@@ -8,6 +8,7 @@ function formatAndSendTweet(event) {
     const tokenName = _.get(event, ['asset', 'name']);
     const image = _.get(event, ['asset', 'image_url']);
     const openseaLink = _.get(event, ['asset', 'permalink']);
+    const description = _.get(event, ['asset', 'description']);
     const totalPrice = _.get(event, 'total_price');
     const usdValue = _.get(event, ['payment_token', 'usd_price']);
     const tokenSymbol = _.get(event, ['payment_token', 'symbol']);
@@ -20,7 +21,7 @@ function formatAndSendTweet(event) {
             : ` ${tokenSymbol}`
     );
 
-    const tweetText = `${tokenName} bought for ${formattedTokenPrice}${formattedPriceSymbol} ($${formattedUsdPrice}) #NFTs ${openseaLink}`;
+    const tweetText = `${tokenName} sold for ${formattedTokenPrice}${formattedPriceSymbol} ($${formattedUsdPrice}). ${description.split('.')[0]} ${openseaLink}`;
 
     console.log(tweetText);
 
