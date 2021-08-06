@@ -22,7 +22,7 @@ function formatAndSendTweet(event) {
             : ` ${tokenSymbol}`
     );
 
-    const tweetText = `${tokenName} sold to ${buyer.substring(0, 8)}} for ${formattedTokenPrice}${formattedPriceSymbol} ($${formattedUsdPrice}). ${description.split('.')[0]}. ${openseaLink}`;
+    const tweetText = `${tokenName} sold to ${buyer.substring(0, 8)} for ${formattedTokenPrice}${formattedPriceSymbol} ($${formattedUsdPrice}). ${description.split('.')[0]}. ${openseaLink}`;
 
     console.log(tweetText);
 
