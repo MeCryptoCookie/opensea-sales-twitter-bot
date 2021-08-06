@@ -7,6 +7,7 @@ const tweet = require('./tweet');
 function formatAndSendTweet(event) {
     const tokenName = _.get(event, ['asset', 'name']);
     const image = _.get(event, ['asset', 'image_url']);
+    const buyer = _.get(event, ['winner_account', 'address']);
     const openseaLink = _.get(event, ['asset', 'permalink']);
     const description = _.get(event, ['asset', 'description']);
     const totalPrice = _.get(event, 'total_price');
@@ -21,7 +22,7 @@ function formatAndSendTweet(event) {
             : ` ${tokenSymbol}`
     );
 
-    const tweetText = `${tokenName} sold for ${formattedTokenPrice}${formattedPriceSymbol} ($${formattedUsdPrice}). ${description.split('.')[0]}. ${openseaLink}`;
+    const tweetText = `${tokenName} sold to ${buyer.substring(0, 8)}} for ${formattedTokenPrice}${formattedPriceSymbol} ($${formattedUsdPrice}). ${description.split('.')[0]}. ${openseaLink}`;
 
     console.log(tweetText);
 
