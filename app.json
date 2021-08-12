@@ -1,0 +1,46 @@
+{
+  "name": "OpenSea Twitter Bot",
+  "description": "A TS script to hit the OpenSea API for collection sales and send messages to Twitter",
+  "keywords": [
+    "ethereum",
+    "nft",
+    "twitter"
+  ],
+  "repository": "https://github.com/MeCryptoCookie/opensea-twitter-bot",
+  "env": {
+    "CONTRACT_ADDRESS": {
+      "description": "The address of your token contract"
+    },
+    "COLLECTION_SLUG": {
+      "description": "The OpenSea slug for your collection"
+    },
+    "TWITTER_CONSUMER_KEY": {
+      "description": "The Twitter consumer key",
+      "required": true
+    },
+    "TWITTER_CONSUMER_SECRET": {
+      "description": "The Twitter consumer secret",
+      "required": true
+    },
+    "TWITTER_ACCESS_KEY": {
+      "description": "The auth key",
+      "required": true
+    },
+    "TWITTER_ACCESS_SECRET": {
+      "description": "The auth secret",
+      "required": true
+    },
+    "SECONDS": {
+      "description": "How many seconds should we look back for sales on OpenSea. i.e. 3600 for one hour. Running more frequently may get you banned from the OpenSea API",
+      "required": false
+    }
+  },
+  "image": "heroku/nodejs",
+  "addons": ["scheduler"],
+  "formation": [],
+  "buildpacks": [
+    {
+      "url": "heroku/nodejs"
+    }
+  ]
+}
