@@ -15,11 +15,15 @@ const twitterClient = new Twit(twitterConfig);
 
 // Upload image of item retrieved from OpenSea & then tweet that image + provided text
 function tweet(tweetText) {
-  twitterClient.post('statuses/update', {status: `${tweetText}`},  function(error, tweet, response) {
-    if(error) throw error;
-    console.log(tweet);  // Tweet body.
-    console.log(response);  // Raw response object.
-  });
+  twitterClient.post('statuses/update', {status: tweetText},  tweeted);
+}
+
+function tweeted(err, data, response) {
+  if (err) {
+    console.log(err);
+  } else {
+    console.log('Success: ' + data.text);
+  }
 }
 
 function formatAndSendTweet(sale, usd) {
