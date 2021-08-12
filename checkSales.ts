@@ -2,23 +2,39 @@ import 'dotenv/config';
 import fetch from 'node-fetch';
 import { ethers } from "ethers";
 import _ from 'lodash';
-import Twit from 'twit';
+import Twitter from 'twitter-lite';
 
-const twitterConfig = {
+const twitterClient = new Twitter({
+  version: "2",
+  extension: false,
   consumer_key: process.env.TWITTER_CONSUMER_KEY,
   consumer_secret: process.env.TWITTER_CONSUMER_SECRET,
-  access_token: process.env.TWITTER_ACCESS_KEY,
+  access_token_key: process.env.TWITTER_ACCESS_KEY,
   access_token_secret: process.env.TWITTER_ACCESS_SECRET,
-};
-
-const twitterClient = new Twit(twitterConfig);
+});
 
 // Upload image of item retrieved from OpenSea & then tweet that image + provided text
-function tweet(tweetText) {
-  twitterClient.post('statuses/update', {status: tweetText},  tweeted);
+async function tweet(tweetText: string) {
+  try {
+    await twitterClient.post('statuses/update', {status: tweetText});
+  } catch (e) {
+    if ('errors' in e) {
+      // Twitter API error
+      if (e.errors[0].code === 88)
+        // rate limit exceeded
+        console.log("Rate limit will reset on", new Date(e._headers.get("x-rate-limit-reset") * 1000));
+      else
+        // some other kind of error, e.g. read-only API trying to POST
+        console.log(e);
+    } else {
+      // non-API error, e.g. network problem or invalid JSON in response
+      console.log(e);
+    }
+  }
 }
 
-function tweeted(err, data, response) {
+function tweeted(err: any, data: { text: string; }, response: any) {
+  console.log(data);
   if (err) {
     console.log(err);
   } else {
@@ -26,7 +42,7 @@ function tweeted(err, data, response) {
   }
 }
 
-function formatAndSendTweet(sale, usd) {
+function formatAndSendTweet(sale: { asset: { name: any; permalink: any; description: any; }; winner_account: { address: any; }; total_price: any; payment_token: { symbol: any; }; }, usd: string) {
   const tokenName = sale.asset.name;
   const buyer = sale.winner_account?.address;
   const openseaLink = sale.asset.permalink;
@@ -42,8 +58,7 @@ function formatAndSendTweet(sale, usd) {
   );
 
   const tweetText = `${tokenName} sold to ${buyer.substring(0, 8)} for ${formattedTokenPrice}${formattedPriceSymbol} or $${usd}. ${description.split('.')[0]}. ${openseaLink}`;
-
-  console.log(encodeURIComponent(tweetText));
+  console.log("Tweeting: " + tweetText);
   tweet(encodeURIComponent(tweetText));
 }
 
