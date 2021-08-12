@@ -1,8 +1,9 @@
 import 'dotenv/config';
 import fetch from 'node-fetch';
 import { ethers } from "ethers";
-import twit from 'twit';
+import Twit from 'twit';
 import _ from 'lodash';
+import Twitter from 'twitter';
 
 const twitterConfig = {
   consumer_key: process.env.TWITTER_CONSUMER_KEY,
@@ -11,20 +12,18 @@ const twitterConfig = {
   access_token_secret: process.env.TWITTER_ACCESS_SECRET,
 };
 
-const twitterClient = new twit(twitterConfig);
+const twitterClient = new Twitter(twitterConfig);
 
 // Upload image of item retrieved from OpenSea & then tweet that image + provided text
-async function tweet(tweetText) {
+function tweet(tweetText) {
   const tweet = {
       status: tweetText
   };
 
-  twitterClient.post('statuses/update', tweet, (err, tweet, resp) => {
-      if (!err) {
-          console.log(`Successfully tweeted: ${tweetText}`);
-      } else {
-          console.error(err);
-      }
+  twitterClient.post('statuses/update', tweet, function(error, tweet, response){
+    if(error) throw error;
+    console.log(tweet);  // Tweet body. 
+    console.log(response);  // Raw response object. 
   });
 }
 
@@ -77,10 +76,10 @@ async function main() {
 
 main()
   .then((res) =>{ 
-    console.warn(res)
+    console.log("Warn " + res)
     process.exit(0)
   })
   .catch(error => {
-    console.error(error);
+    console.log("Error " + error);
     process.exit(1);
   });
