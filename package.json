@@ -13,7 +13,7 @@
     "moment": "^2.29.1",
     "node-fetch": "^2.6.1",
     "oauth": "^0.9.15",
-    "ts-node": "^9.1.1",
+    "ts-node": "^10.2.1",
     "twitter-lite": "^1.1.0",
     "typescript": "^4.2.3"
   },

@@ -31,7 +31,7 @@ async function formatAndSendTweet(sale: { asset: { name: any; permalink: any; de
           : ` ${tokenSymbol}`
   );
 
-  const tweetText = `${tokenName} sold to ${buyer.substring(0, 8)} for ${formattedTokenPrice}${formattedPriceSymbol} or $${usd}. ${description.split('.')[0]}. ${openseaLink}`;
+  const tweetText = `Car ${tokenName} sold to ${buyer.substring(0, 8)} for ${formattedTokenPrice}${formattedPriceSymbol} or $${usd}. ${description.split('.')[0]}. ${openseaLink}`;
   console.log("Tweeting: " + tweetText);
 
   await tweet(tweetText)
@@ -58,7 +58,7 @@ async function main() {
       event_type: 'successful',
       only_opensea: 'false',
       occurred_after: hoursAgo.toString(), 
-      collection_slug: process.env.COLLECTION_SLUG!
+      collection_slug: process.env.CAR_COLLECTION_SLUG!
   }), settings).then((resp) => resp.json());
 
   await Promise.all(
