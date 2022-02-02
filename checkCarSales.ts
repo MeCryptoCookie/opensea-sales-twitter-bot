@@ -31,7 +31,7 @@ async function formatAndSendTweet(sale: { asset: { name: any; permalink: any; de
           : ` ${tokenSymbol}`
   );
 
-  const tweetText = `Car ${tokenName} sold to ${buyer.substring(0, 8)} for ${formattedTokenPrice}${formattedPriceSymbol} or $${usd}. ${description.split('.')[0]}. ${openseaLink}`;
+  const tweetText = `Car ${tokenName} sold to ${buyer.substring(0, 8)} for ${formattedTokenPrice}${formattedPriceSymbol} or $${usd}. ${openseaLink}`;
   console.log("Tweeting: " + tweetText);
 
   await tweet(tweetText)
